@@ -1,0 +1,27 @@
+{
+	"name": "mern-my-workout",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "node backend/server",
+		"server": "nodemon backend/server",
+		"client": "npm start --prefix frontend",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"data:import": "node backend/seederScript",
+		"data:destroy": "node backend/seederScript -d"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"express-async-handler": "^1.2.0",
+		"mongoose": "^6.8.0"
+	},
+	"devDependencies": {
+		"concurrently": "^7.6.0",
+		"nodemon": "^2.0.20"
+	}
+}
