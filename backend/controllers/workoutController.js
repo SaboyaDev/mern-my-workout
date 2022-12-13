@@ -6,9 +6,11 @@ const mongoose = require('mongoose')
 const checkId = (req, res) => {
 	const { id } = req.params
 
-	!mongoose.Types.ObjectId.isValid(id)
-		? res.status(400).json({ error: 'Invalid Document ID Format' })
-		: id
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(400).json({ error: 'Invalid Document ID Format' })
+	} else {
+		return id
+	}
 }
 
 const checkDocument = (workout, res) => {
@@ -27,7 +29,7 @@ const findWorkouts = async (req, res) => {
 
 // Get a  single workout --> Model.findById()
 const findWorkout = async (req, res) => {
-	const id = checkId(req, res)
+	const id = await checkId(req, res)
 	const workout = await Workout.findById(id)
 	checkDocument(workout, res)
 }
@@ -47,14 +49,14 @@ const createWorkout = async (req, res) => {
 
 // Delete a workout --> Model.findOneAndDelete()
 const deleteWorkout = async (req, res) => {
-	checkId(req, res)
+	const id = await checkId(req, res)
 	const workout = await Workout.findOneAndDelete({ _id: id })
 	checkDocument(workout, res)
 }
 
 // Update a workout --> Model.updateOne()
 const updateWorkout = async (req, res) => {
-	checkId(req, res)
+	const id = await checkId(req, res)
 	const workout = await Workout.findOneAndUpdate({ _id: id }, { ...req.body })
 	checkDocument(workout, res)
 }
